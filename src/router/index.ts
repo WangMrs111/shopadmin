@@ -4,15 +4,16 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect:'main',
-    component:()=>import('../pages/main.vue')
+    redirect: 'main',
+    component: () => import('../pages/main.vue')
   },
   {
     path: '/login',
     component: () => import('../pages/login.vue')
   },
   {
-    path: '/N',
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
     component: () => import('../pages/404.vue')
   }
 ]

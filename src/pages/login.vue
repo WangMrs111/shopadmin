@@ -1,5 +1,5 @@
 <template>
-  <el-row class="bg-indigo-500 min-h-screen">
+  <el-row class="bg-indigo-500 ">
     <el-col :span="16" class="flex items-center justify-center">
       <div>
         <div class="text-light-50 font-bold text-xl">欢迎光临</div>
@@ -24,18 +24,18 @@
         :model="ruleForm"
         class="w-[250px] flex flex-col"
       >
-        <el-form-item prop="username">
+        <el-form-item props="username">
           <el-input v-model="ruleForm.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item prop="password">
-          <el-input v-model="ruleForm.password" placeholder="请输入密码" />
+        <el-form-item props="password">
+          <el-input
+            v-model="ruleForm.password"
+            type="password"
+            placeholder="请输入密码"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button
-            class="w-[250px]"
-            color="#626aef"
-            round
-            @click="onSubmit(ruleFormRef)"
+          <el-button class="w-[250px]" color="#626aef" round @click="onSubmit()"
             >登录</el-button
           >
         </el-form-item>
@@ -44,41 +44,32 @@
   </el-row>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   username: '',
   password: ''
 })
-
-const rules = reactive<FormRules>({
-  username: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
-  ]
-})
-
-const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
+const rules = {
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [
+    {
+      required: true,
+      message: '请输入用户名',
+      trigger: 'blur'
     }
-  })
+  ]
 }
-
-// do not use same name with ref
-const form = reactive({
-  username: '',
-  password: ''
-})
+const ruleFormRef = ref(null)
 
 const onSubmit = () => {
-  console.log('submit!')
+  //console.log('submit!')
+  ruleFormRef.value.validata((valid) => {
+    if (!valid) {
+      return false
+    }
+    console.log('验证通过')
+  })
 }
 </script>
 

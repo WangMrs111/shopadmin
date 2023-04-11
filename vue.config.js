@@ -1,10 +1,12 @@
 const {
-    defineConfig
+  defineConfig
 } = require('@vue/cli-service')
-// const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
-// const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
-// const AutoImport = require('unplugin-auto-import/webpack')
-// const Components = require('unplugin-vue-components/webpack')
+const WindiCSSWebpackPlugin = require('windicss-webpack-plugin')
+const {
+  ElementPlusResolver
+} = require('unplugin-vue-components/resolvers')
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
 
 // module.exports = defineConfig({
 //     transpileDependencies: true,
@@ -49,17 +51,28 @@ const {
 
 // })
 module.exports = defineConfig({
-    transpileDependencies: true,
-    publicPath: './',
-    outputDir: 'build',
-    devServer: {
-        port: 8888, // 设置端口号
-        open: true, //是否自动打开浏览器并运行
-        host: 'localhost', //设置主机名
-        lintOnSave: false //关闭eslint   关闭严格模式
-    },
+  transpileDependencies: true,
+  publicPath: './',
+  outputDir: 'build',
+  devServer: {
+    port: 8888, // 设置端口号
+    open: true, //是否自动打开浏览器并运行
+    host: 'localhost', //设置主机名
 
+  },
+  configureWebpack: {
+    plugins: [
+      new WindiCSSWebpackPlugin(),
 
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
+  },
+  lintOnSave: false //关闭eslint   关闭严格模式
 })
 //// 4.0 5.0
 // 1. 处理跨域
@@ -76,4 +89,3 @@ module.exports = defineConfig({
 // process.env.NODE_ENV development production
 // development 开发环境 开发模式
 // production 生产环境 线上环境
-
